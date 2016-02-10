@@ -8,7 +8,7 @@ See the class 'Time' for details.
 import datetime
 import re
 
-from email.Utils import formatdate, parsedate_tz
+from email.utils import formatdate, parsedate_tz
 
 _EPOCH = datetime.datetime.utcfromtimestamp(0)
 
