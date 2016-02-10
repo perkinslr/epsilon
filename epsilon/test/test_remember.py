@@ -65,11 +65,11 @@ class RememberedTests(TestCase):
         The callable wrapped by C{@remembered} will only be invoked once,
         regardless of how many times the attribute is accessed.
         """
-        self.assertEquals(self.rememberer.invocations, 0)
+        self.assertEqual(self.rememberer.invocations, 0)
         firstTime = self.rememberer.value1
-        self.assertEquals(self.rememberer.invocations, 1)
+        self.assertEqual(self.rememberer.invocations, 1)
         secondTime = self.rememberer.value1
-        self.assertEquals(self.rememberer.invocations, 1)
+        self.assertEqual(self.rememberer.invocations, 1)
         self.assertIdentical(firstTime, secondTime)
 
 
@@ -78,13 +78,13 @@ class RememberedTests(TestCase):
         If the L{@remembered} decorator is used more than once, each one will
         be an attribute with its own identity.
         """
-        self.assertEquals(self.rememberer.invocations, 0)
-        self.assertEquals(self.rememberer.otherInvocations, 0)
+        self.assertEqual(self.rememberer.invocations, 0)
+        self.assertEqual(self.rememberer.otherInvocations, 0)
         firstValue1 = self.rememberer.value1
-        self.assertEquals(self.rememberer.invocations, 1)
-        self.assertEquals(self.rememberer.otherInvocations, 0)
+        self.assertEqual(self.rememberer.invocations, 1)
+        self.assertEqual(self.rememberer.otherInvocations, 0)
         firstValue2 = self.rememberer.value2
-        self.assertEquals(self.rememberer.otherInvocations, 1)
+        self.assertEqual(self.rememberer.otherInvocations, 1)
         self.assertNotIdentical(firstValue1, firstValue2)
         secondValue2 = self.rememberer.value2
         self.assertIdentical(firstValue2, secondValue2)

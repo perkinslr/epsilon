@@ -17,7 +17,7 @@ def _deferGenerator(g, deferred=None):
         if deferred is None:
             deferred = defer.Deferred()
         try:
-            result = g.next()
+            result = next(g)
         except StopIteration:
             deferred.callback(result)
             return deferred

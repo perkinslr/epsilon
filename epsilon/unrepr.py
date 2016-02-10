@@ -23,7 +23,7 @@ class Builder:
         return m(o)
 
     def build_List(self, o):
-        return map(self.build, o.getChildren())
+        return list(map(self.build, o.getChildren()))
 
     def build_Const(self, o):
         return o.value
@@ -32,7 +32,7 @@ class Builder:
         d = {}
         i = iter(map(self.build, o.getChildren()))
         for el in i:
-            d[el] = i.next()
+            d[el] = next(i)
         return d
 
     def build_Tuple(self, o):
@@ -44,7 +44,7 @@ class Builder:
         raise UnknownType('Name')
 
     def build_Add(self, o):
-        real, imag = map(self.build_Const, o.getChildren())
+        real, imag = list(map(self.build_Const, o.getChildren()))
         try:
             real = float(real)
         except TypeError:

@@ -74,7 +74,7 @@ class CollectingSender:
         Reject boxes with non-string keys or values; save all the rest in
         C{self.boxes}.
         """
-        for k, v in box.iteritems():
+        for k, v in box.items():
             if not (isinstance(k, str) and isinstance(v, str)):
                 raise TypeError("Cannot send boxes containing non-strings")
         self.boxes.append(box)
@@ -96,8 +96,8 @@ class RouteTests(TestCase):
         """
         self.receiver = SomeReceiver()
         self.sender = CollectingSender()
-        self.localName = u"foo"
-        self.remoteName = u"bar"
+        self.localName = "foo"
+        self.remoteName = "bar"
         self.router = Router()
         self.router.startReceivingBoxes(self.sender)
         self.route = self.router.bindRoute(self.receiver, self.localName)
@@ -186,7 +186,7 @@ class RouterTests(TestCase):
         self.router.startReceivingBoxes(self.sender)
         self.receiver = SomeReceiver()
         self.route = self.router.bindRoute(self.receiver)
-        self.route.connectTo(u"foo")
+        self.route.connectTo("foo")
 
 
     def test_interfaces(self):
@@ -229,7 +229,7 @@ class RouterTests(TestCase):
         router = Router()
         receiver = SomeReceiver()
         route = router.bindRoute(receiver)
-        route.connectTo(u'quux')
+        route.connectTo('quux')
         self.assertFalse(receiver.started)
         sender = CollectingSender()
         router.startReceivingBoxes(sender)
@@ -255,7 +255,7 @@ class RouterTests(TestCase):
         sender = CollectingSender()
         router.startReceivingBoxes(sender)
         self.assertFalse(receiver.started)
-        route.connectTo(u"remoteName")
+        route.connectTo("remoteName")
         self.assertTrue(receiver.started)
         receiver.sender.sendBox({'foo': 'bar'})
         self.assertEqual(sender.boxes, [{_ROUTE: 'remoteName', 'foo': 'bar'}])

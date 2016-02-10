@@ -3,7 +3,7 @@ from epsilon import hotfix
 hotfix.require('twisted', 'delayedcall_seconds')
 hotfix.require('twisted', 'timeoutmixin_calllater')
 
-import os, StringIO
+import os, io
 
 from twisted.trial import unittest
 from twisted.internet import error, base
@@ -36,18 +36,18 @@ class DiskstatTestCase(unittest.TestCase):
         s = ("3    0 hda 267481 3913 3944418 1625467 3392405 3781877 58210592 "
              "150845143 0 6136300 153333793")
         device, stat = benchmark.parseDiskStatLine(s)
-        self.assertEquals(device, 'hda')
-        self.assertEquals(stat.readCount, 267481)
-        self.assertEquals(stat.mergedReadCount, 3913)
-        self.assertEquals(stat.readSectorCount, 3944418)
-        self.assertEquals(stat.readMilliseconds, 1625467)
-        self.assertEquals(stat.writeCount, 3392405)
-        self.assertEquals(stat.mergedWriteCount, 3781877)
-        self.assertEquals(stat.writeSectorCount, 58210592)
-        self.assertEquals(stat.writeMilliseconds, 150845143)
-        self.assertEquals(stat.outstandingIOCount, 0)
-        self.assertEquals(stat.ioMilliseconds, 6136300)
-        self.assertEquals(stat.weightedIOMilliseconds, 153333793)
+        self.assertEqual(device, 'hda')
+        self.assertEqual(stat.readCount, 267481)
+        self.assertEqual(stat.mergedReadCount, 3913)
+        self.assertEqual(stat.readSectorCount, 3944418)
+        self.assertEqual(stat.readMilliseconds, 1625467)
+        self.assertEqual(stat.writeCount, 3392405)
+        self.assertEqual(stat.mergedWriteCount, 3781877)
+        self.assertEqual(stat.writeSectorCount, 58210592)
+        self.assertEqual(stat.writeMilliseconds, 150845143)
+        self.assertEqual(stat.outstandingIOCount, 0)
+        self.assertEqual(stat.ioMilliseconds, 6136300)
+        self.assertEqual(stat.weightedIOMilliseconds, 153333793)
 
 
     def testPartitionLineParser(self):
@@ -57,11 +57,11 @@ class DiskstatTestCase(unittest.TestCase):
         """
         s = "3    1 hda1 2 5 7 9"
         device, stat = benchmark.parseDiskStatLine(s)
-        self.assertEquals(device, 'hda1')
-        self.assertEquals(stat.readCount, 2)
-        self.assertEquals(stat.readSectorCount, 5)
-        self.assertEquals(stat.writeCount, 7)
-        self.assertEquals(stat.writeSectorCount, 9)
+        self.assertEqual(device, 'hda1')
+        self.assertEqual(stat.readCount, 2)
+        self.assertEqual(stat.readSectorCount, 5)
+        self.assertEqual(stat.writeCount, 7)
+        self.assertEqual(stat.writeSectorCount, 9)
 
 
     def testFileParser(self):
@@ -69,36 +69,36 @@ class DiskstatTestCase(unittest.TestCase):
         Test the parsing of multiple lines into a dict mapping device names and
         numbers to diststat instances.
         """
-        s = StringIO.StringIO(
+        s = io.StringIO(
             "1 2 abc 3 4 5 6 7 8 9 10 11 12 13\n"
             "14 15 def 16 17 18 19 20 21 22 23 24 25 26\n")
         ds = list(benchmark.parseDiskStats(s))
         ds.sort()
-        self.assertEquals(ds[0][0], "abc")
-        self.assertEquals(ds[0][1].readCount, 3)
-        self.assertEquals(ds[0][1].mergedReadCount, 4)
-        self.assertEquals(ds[0][1].readSectorCount, 5)
-        self.assertEquals(ds[0][1].readMilliseconds, 6)
-        self.assertEquals(ds[0][1].writeCount, 7)
-        self.assertEquals(ds[0][1].mergedWriteCount, 8)
-        self.assertEquals(ds[0][1].writeSectorCount, 9)
-        self.assertEquals(ds[0][1].writeMilliseconds, 10)
-        self.assertEquals(ds[0][1].outstandingIOCount, 11)
-        self.assertEquals(ds[0][1].ioMilliseconds, 12)
-        self.assertEquals(ds[0][1].weightedIOMilliseconds, 13)
+        self.assertEqual(ds[0][0], "abc")
+        self.assertEqual(ds[0][1].readCount, 3)
+        self.assertEqual(ds[0][1].mergedReadCount, 4)
+        self.assertEqual(ds[0][1].readSectorCount, 5)
+        self.assertEqual(ds[0][1].readMilliseconds, 6)
+        self.assertEqual(ds[0][1].writeCount, 7)
+        self.assertEqual(ds[0][1].mergedWriteCount, 8)
+        self.assertEqual(ds[0][1].writeSectorCount, 9)
+        self.assertEqual(ds[0][1].writeMilliseconds, 10)
+        self.assertEqual(ds[0][1].outstandingIOCount, 11)
+        self.assertEqual(ds[0][1].ioMilliseconds, 12)
+        self.assertEqual(ds[0][1].weightedIOMilliseconds, 13)
 
-        self.assertEquals(ds[1][0], "def")
-        self.assertEquals(ds[1][1].readCount, 16)
-        self.assertEquals(ds[1][1].mergedReadCount, 17)
-        self.assertEquals(ds[1][1].readSectorCount, 18)
-        self.assertEquals(ds[1][1].readMilliseconds, 19)
-        self.assertEquals(ds[1][1].writeCount, 20)
-        self.assertEquals(ds[1][1].mergedWriteCount, 21)
-        self.assertEquals(ds[1][1].writeSectorCount, 22)
-        self.assertEquals(ds[1][1].writeMilliseconds, 23)
-        self.assertEquals(ds[1][1].outstandingIOCount, 24)
-        self.assertEquals(ds[1][1].ioMilliseconds, 25)
-        self.assertEquals(ds[1][1].weightedIOMilliseconds, 26)
+        self.assertEqual(ds[1][0], "def")
+        self.assertEqual(ds[1][1].readCount, 16)
+        self.assertEqual(ds[1][1].mergedReadCount, 17)
+        self.assertEqual(ds[1][1].readSectorCount, 18)
+        self.assertEqual(ds[1][1].readMilliseconds, 19)
+        self.assertEqual(ds[1][1].writeCount, 20)
+        self.assertEqual(ds[1][1].mergedWriteCount, 21)
+        self.assertEqual(ds[1][1].writeSectorCount, 22)
+        self.assertEqual(ds[1][1].writeMilliseconds, 23)
+        self.assertEqual(ds[1][1].outstandingIOCount, 24)
+        self.assertEqual(ds[1][1].ioMilliseconds, 25)
+        self.assertEqual(ds[1][1].weightedIOMilliseconds, 26)
 
 
     def testCaptureStats(self):
@@ -107,7 +107,7 @@ class DiskstatTestCase(unittest.TestCase):
         available.
         """
         stats = benchmark.captureStats()
-        self.failUnless(isinstance(stats, dict), "Expected dictionary, got %r" % (stats,))
+        self.assertTrue(isinstance(stats, dict), "Expected dictionary, got %r" % (stats,))
 
 
 
@@ -127,27 +127,27 @@ class ReporterTestCase(unittest.TestCase):
                 benchmark.partitionstat(5, 7, 9, 11),
                 56), False, False))
 
-        self.assertEquals(msg['_command'], 'Result')
+        self.assertEqual(msg['_command'], 'Result')
 
-        self.assertEquals(msg['version'], '0')
-        self.assertEquals(msg['error'], 'False')
-        self.assertEquals(msg['timeout'], 'False')
-        self.assertEquals(msg['name'], 'frunk')
-        self.failIfEqual(msg['host'], 'localhost')
+        self.assertEqual(msg['version'], '0')
+        self.assertEqual(msg['error'], 'False')
+        self.assertEqual(msg['timeout'], 'False')
+        self.assertEqual(msg['name'], 'frunk')
+        self.assertNotEqual(msg['host'], 'localhost')
 
         self.assertIn('sector_size', msg)
         self.assertIn('python_version', msg)
         self.assertIn('twisted_version', msg)
         self.assertIn('divmod_version', msg)
 
-        self.assertEquals(msg['elapsed'], '4')
-        self.assertEquals(msg['filesystem_growth'], '44')
-        self.assertEquals(msg['read_count'], '4')
-        self.assertEquals(msg['read_sectors'], '5')
-        self.assertEquals(msg['write_count'], '6')
-        self.assertEquals(msg['write_sectors'], '7')
-        self.assertEquals(msg['read_ms'], '10')
-        self.assertEquals(msg['write_ms'], '10')
+        self.assertEqual(msg['elapsed'], '4')
+        self.assertEqual(msg['filesystem_growth'], '44')
+        self.assertEqual(msg['read_count'], '4')
+        self.assertEqual(msg['read_sectors'], '5')
+        self.assertEqual(msg['write_count'], '6')
+        self.assertEqual(msg['write_sectors'], '7')
+        self.assertEqual(msg['read_ms'], '10')
+        self.assertEqual(msg['write_ms'], '10')
 
 
     def testFormatterWithoutDiskStats(self):
@@ -170,25 +170,25 @@ class ReporterTestCase(unittest.TestCase):
                 benchmark.partitionstat(5, 7, 9, 11),
                 56), False, False))
 
-        self.assertEquals(msg['_command'], 'Result')
+        self.assertEqual(msg['_command'], 'Result')
 
-        self.assertEquals(msg['version'], '0')
-        self.assertEquals(msg['error'], 'False')
-        self.assertEquals(msg['timeout'], 'False')
-        self.assertEquals(msg['name'], 'frunk')
-        self.failIfEqual(msg['host'], 'localhost')
+        self.assertEqual(msg['version'], '0')
+        self.assertEqual(msg['error'], 'False')
+        self.assertEqual(msg['timeout'], 'False')
+        self.assertEqual(msg['name'], 'frunk')
+        self.assertNotEqual(msg['host'], 'localhost')
 
         self.assertIn('sector_size', msg)
         self.assertIn('python_version', msg)
         self.assertIn('twisted_version', msg)
         self.assertIn('divmod_version', msg)
 
-        self.assertEquals(msg['elapsed'], '4')
-        self.assertEquals(msg['filesystem_growth'], '44')
-        self.assertEquals(msg['read_count'], '4')
-        self.assertEquals(msg['read_sectors'], '5')
-        self.assertEquals(msg['write_count'], '6')
-        self.assertEquals(msg['write_sectors'], '7')
+        self.assertEqual(msg['elapsed'], '4')
+        self.assertEqual(msg['filesystem_growth'], '44')
+        self.assertEqual(msg['read_count'], '4')
+        self.assertEqual(msg['read_sectors'], '5')
+        self.assertEqual(msg['write_count'], '6')
+        self.assertEqual(msg['write_sectors'], '7')
 
         self.failIfIn('read_ms', msg)
         self.failIfIn('write_ms', msg)
@@ -214,29 +214,29 @@ class ReporterTestCase(unittest.TestCase):
                 None,
                 56), False, False))
 
-        self.assertEquals(msg['_command'], 'Result')
+        self.assertEqual(msg['_command'], 'Result')
 
-        self.assertEquals(msg['version'], '0')
-        self.assertEquals(msg['error'], 'False')
-        self.assertEquals(msg['timeout'], 'False')
-        self.assertEquals(msg['name'], 'frunk')
-        self.failIfEqual(msg['host'], 'localhost')
+        self.assertEqual(msg['version'], '0')
+        self.assertEqual(msg['error'], 'False')
+        self.assertEqual(msg['timeout'], 'False')
+        self.assertEqual(msg['name'], 'frunk')
+        self.assertNotEqual(msg['host'], 'localhost')
 
         self.assertIn('sector_size', msg)
         self.assertIn('python_version', msg)
         self.assertIn('twisted_version', msg)
         self.assertIn('divmod_version', msg)
 
-        self.assertEquals(msg['elapsed'], '4')
-        self.assertEquals(msg['filesystem_growth'], '44')
+        self.assertEqual(msg['elapsed'], '4')
+        self.assertEqual(msg['filesystem_growth'], '44')
 
         self.failIfIn('read_count', msg)
         self.failIfIn('read_sectors', msg)
         self.failIfIn('write_count', msg)
         self.failIfIn('write_sectors', msg)
 
-        self.assertEquals(msg['read_ms'], '10')
-        self.assertEquals(msg['write_ms'], '10')
+        self.assertEqual(msg['read_ms'], '10')
+        self.assertEqual(msg['write_ms'], '10')
 
 
     def testGetSize(self):
@@ -245,7 +245,7 @@ class ReporterTestCase(unittest.TestCase):
         fObj = file(os.path.join(path, 'foo'), 'wb')
         fObj.write('x' * 10)
         fObj.close()
-        self.assertEquals(
+        self.assertEqual(
             benchmark.getSize(filepath.FilePath(path)),
             os.path.getsize(path) + os.path.getsize(os.path.join(path, 'foo')))
 
@@ -259,7 +259,7 @@ class ReporterTestCase(unittest.TestCase):
         path.makedirs()
         link = path.child('foo')
         os.symlink('abcdefg', link.path)
-        self.assertEquals(
+        self.assertEqual(
             benchmark.getOneSize(link),
             len('abcdefg'))
 
@@ -331,10 +331,10 @@ class BasicProcessTestCase(SpawnMixin, unittest.TestCase):
     processProtocol = benchmark.BasicProcess
 
     def testCorrectArgs(self):
-        self.assertEquals(self.mock.executable, 'executable')
-        self.assertEquals(self.mock.args, ['executable', 'args'])
-        self.assertEquals(self.mock.path, self.workingDirectory)
-        self.assertEquals(self.mock.env, {'env': 'stuff'})
+        self.assertEqual(self.mock.executable, 'executable')
+        self.assertEqual(self.mock.args, ['executable', 'args'])
+        self.assertEqual(self.mock.path, self.workingDirectory)
+        self.assertEqual(self.mock.env, {'env': 'stuff'})
 
 
     def testChildDataReceived(self):
@@ -342,10 +342,11 @@ class BasicProcessTestCase(SpawnMixin, unittest.TestCase):
         self.mock.proto.childDataReceived(2, 'stderr bytes')
         self.mock.proto.childDataReceived(1, 'more stdout bytes')
 
-        def cbProcessFinished((proto, status, output)):
+        def cbProcessFinished(xxx_todo_changeme):
+            (proto, status, output) = xxx_todo_changeme
             self.assertIdentical(proto, self.mock.proto)
-            self.assertEquals(status, 0)
-            self.assertEquals(
+            self.assertEqual(status, 0)
+            self.assertEqual(
                 output,
                 [(1, 'stdout bytes'),
                  (2, 'stderr bytes'),
@@ -360,12 +361,12 @@ class BasicProcessTestCase(SpawnMixin, unittest.TestCase):
         Assert that a timeout call is created as soon as the process is started
         and that if it expires, the spawn call's Deferred fails.
         """
-        self.assertEquals(len(self.sched), 1)
-        self.assertEquals(self.sched[0].getTime(), 900.0)
+        self.assertEqual(len(self.sched), 1)
+        self.assertEqual(self.sched[0].getTime(), 900.0)
         self.sched[0].func(*self.sched[0].args, **self.sched[0].kw)
 
         def cbTimedOut(ign):
-            self.assertEquals(self.mock.signals, ['KILL'])
+            self.assertEqual(self.mock.signals, ['KILL'])
 
         d = self.assertFailure(self.spawnDeferred, error.TimeoutError)
         d.addCallback(cbTimedOut)
@@ -378,13 +379,13 @@ class BasicProcessTestCase(SpawnMixin, unittest.TestCase):
         """
         self.currentTime = 1
         self.mock.proto.childDataReceived(1, 'bytes')
-        self.assertEquals(len(self.sched), 1)
-        self.assertEquals(self.sched[0].getTime(), 901.0)
+        self.assertEqual(len(self.sched), 1)
+        self.assertEqual(self.sched[0].getTime(), 901.0)
 
         self.currentTime = 2
         self.mock.proto.childConnectionLost(1)
-        self.assertEquals(len(self.sched), 1)
-        self.assertEquals(self.sched[0].getTime(), 902.0)
+        self.assertEqual(len(self.sched), 1)
+        self.assertEqual(self.sched[0].getTime(), 902.0)
 
 
     def testProcessKilled(self):
@@ -393,10 +394,10 @@ class BasicProcessTestCase(SpawnMixin, unittest.TestCase):
         else gets involved and kills the child process.
         """
         def cbKilled(exc):
-            self.assertEquals(exc.exitCode, 1)
-            self.assertEquals(exc.signal, 2)
-            self.assertEquals(exc.status, 3)
-            self.assertEquals(exc.output, [(1, 'bytes')])
+            self.assertEqual(exc.exitCode, 1)
+            self.assertEqual(exc.signal, 2)
+            self.assertEqual(exc.status, 3)
+            self.assertEqual(exc.output, [(1, 'bytes')])
 
         self.mock.proto.childDataReceived(1, 'bytes')
         self.mock.proto.processEnded(failure.Failure(error.ProcessTerminated(1, 2, 3)))
@@ -414,13 +415,13 @@ class SnapshotTestCase(unittest.TestCase):
     def testStart(self):
         c = benchmark.Change()
         c.start(filepath.FilePath('.'), 'hda', 'hda1')
-        self.failUnless(isinstance(c.before, benchmark.ResourceSnapshot))
+        self.assertTrue(isinstance(c.before, benchmark.ResourceSnapshot))
 
 
     def testStop(self):
         c = benchmark.Change()
         c.stop(filepath.FilePath('.'), 'hda', 'hda1')
-        self.failUnless(isinstance(c.after, benchmark.ResourceSnapshot))
+        self.assertTrue(isinstance(c.after, benchmark.ResourceSnapshot))
 
 
 
@@ -436,7 +437,7 @@ class BenchmarkProcessTestCase(SpawnMixin, unittest.TestCase):
         p = self.mock.proto
         p.startTiming = lambda: started.append(None)
         self.mock.proto.childDataReceived(p.BACKCHANNEL_OUT, p.START)
-        self.assertEquals(started, [None])
+        self.assertEqual(started, [None])
 
 
     def testProcessStopTimingCommand(self):
@@ -444,4 +445,4 @@ class BenchmarkProcessTestCase(SpawnMixin, unittest.TestCase):
         p = self.mock.proto
         p.stopTiming = lambda: stopped.append(None)
         self.mock.proto.childDataReceived(p.BACKCHANNEL_OUT, p.STOP)
-        self.assertEquals(stopped, [None])
+        self.assertEqual(stopped, [None])

@@ -44,7 +44,7 @@ def failUnlessWarns(self, category, message, filename, f,
     self.assertIdentical(gotCategory, category)
 
     # Use starts with because of .pyc/.pyo issues.
-    self.failUnless(
+    self.assertTrue(
         filename.startswith(gotFilename),
         'Warning in %r, expected %r' % (gotFilename, filename))
 

@@ -54,7 +54,7 @@ class Caseless(object):
 
 
     def __unicode__(self):
-        return unicode(self.cased)
+        return str(self.cased)
 
 
     def __len__(self):

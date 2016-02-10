@@ -23,29 +23,29 @@ class MyRecord(record('something somethingElse')):
 class StructLike(unittest.TestCase):
     def _testme(self, TestStruct):
         x = TestStruct()
-        self.assertEquals(x.x, 1)
-        self.assertEquals(x.y, 2)
-        self.assertEquals(x.z, 3)
+        self.assertEqual(x.x, 1)
+        self.assertEqual(x.y, 2)
+        self.assertEqual(x.z, 3)
 
         y = TestStruct('3', '2', '1')
-        self.assertEquals(y.x, '3')
-        self.assertEquals(y.y, '2')
-        self.assertEquals(y.z, '1')
+        self.assertEqual(y.x, '3')
+        self.assertEqual(y.y, '2')
+        self.assertEqual(y.z, '1')
 
         z = TestStruct(z='z', x='x', y='y')
-        self.assertEquals(z.x, 'x')
-        self.assertEquals(z.y, 'y')
-        self.assertEquals(z.z, 'z')
+        self.assertEqual(z.x, 'x')
+        self.assertEqual(z.y, 'y')
+        self.assertEqual(z.z, 'z')
 
         a = TestStruct('abc')
-        self.assertEquals(a.x, 'abc')
-        self.assertEquals(a.y, 2)
-        self.assertEquals(a.z, 3)
+        self.assertEqual(a.x, 'abc')
+        self.assertEqual(a.y, 2)
+        self.assertEqual(a.z, 3)
 
         b = TestStruct(y='123')
-        self.assertEquals(b.x, 1)
-        self.assertEquals(b.y, '123')
-        self.assertEquals(b.z, 3)
+        self.assertEqual(b.x, 1)
+        self.assertEqual(b.y, '123')
+        self.assertEqual(b.z, 3)
 
     def testWithPositional(self):
         self._testme(record('x y z', x=1, y=2, z=3))
@@ -73,7 +73,7 @@ class StructLike(unittest.TestCase):
         R = record('a')
         r = R(1)
         r.foo = 2
-        self.assertEquals(r.foo, 2)
+        self.assertEqual(r.foo, 2)
 
     def testCreateWithNoValuesAndNoDefaults(self):
         R = record('x')
@@ -95,7 +95,7 @@ class StructLike(unittest.TestCase):
         slots they contain.
         """
         R = record('xyz abc def')
-        self.assertEquals(R.__name__, "Record<xyz abc def>")
+        self.assertEqual(R.__name__, "Record<xyz abc def>")
 
 
     def test_instanceStringRepresentation(self):
@@ -104,7 +104,7 @@ class StructLike(unittest.TestCase):
         provides information about the values contained in their slots.
         """
         obj = MyRecord(something=1, somethingElse=2)
-        self.assertEquals(repr(obj), 'MyRecord(something=1, somethingElse=2)')
+        self.assertEqual(repr(obj), 'MyRecord(something=1, somethingElse=2)')
 
 
     def test_instanceStringRepresentationNesting(self):
@@ -113,7 +113,7 @@ class StructLike(unittest.TestCase):
         """
         obj = MyRecord(something=1, somethingElse=2)
         objRepr = 'MyRecord(something=1, somethingElse=2)'
-        self.assertEquals(
+        self.assertEqual(
             repr(MyRecord(obj, obj)),
             'MyRecord(something=%s, somethingElse=%s)' % (objRepr, objRepr))
 
@@ -125,7 +125,7 @@ class StructLike(unittest.TestCase):
         """
         obj = MyRecord(something=1, somethingElse=2)
         obj.somethingElse = obj
-        self.assertEquals(
+        self.assertEqual(
             repr(obj), 'MyRecord(something=1, somethingElse=MyRecord(...))')
 
 
@@ -136,7 +136,7 @@ class StructLike(unittest.TestCase):
         """
         obj = MyRecord(something=1, somethingElse=[])
         obj.somethingElse.append(obj)
-        self.assertEquals(
+        self.assertEqual(
             repr(obj), 'MyRecord(something=1, somethingElse=[MyRecord(...)])')
 
 
@@ -182,9 +182,10 @@ class StructLike(unittest.TestCase):
             return result
         d2 = deferToThreadPool(reactor, pool, otherRepr)
 
-        def done((thread1repr, thread2repr)):
+        def done(xxx_todo_changeme):
+            (thread1repr, thread2repr) = xxx_todo_changeme
             knownGood = 'MyRecord(something=1, somethingElse=sticky)'
             # self.assertEquals(thread1repr, thread2repr)
-            self.assertEquals(thread1repr, knownGood)
-            self.assertEquals(thread2repr, knownGood)
+            self.assertEqual(thread1repr, knownGood)
+            self.assertEqual(thread2repr, knownGood)
         return gatherResults([d, d2]).addCallback(done)

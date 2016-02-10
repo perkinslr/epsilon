@@ -141,7 +141,7 @@ class Router:
 
         @rtype: C{unicode}
         """
-        return unicode(self._routeCounter.next())
+        return str(next(self._routeCounter))
 
 
     def bindRoute(self, receiver, routeName=_unspecified):
@@ -173,7 +173,7 @@ class Router:
         Initialize route tracking objects.
         """
         self._sender = sender
-        for routeName, route in self._unstarted.iteritems():
+        for routeName, route in self._unstarted.items():
             # Any route which has been bound but which does not yet have a
             # remote route name should not yet be started.  These will be
             # started in Route.connectTo.
@@ -196,7 +196,7 @@ class Router:
         """
         Stop all the L{IBoxReceiver}s which have been added to this router.
         """
-        for routeName, route in self._routes.iteritems():
+        for routeName, route in self._routes.items():
             route.stop(reason)
         self._routes = None
 

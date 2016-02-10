@@ -100,21 +100,20 @@ class ModalType(type):
         implementations = {}
 
         keepAttrs = {'mode': initialMode}
-        for (k, v) in attrs.iteritems():
+        for (k, v) in attrs.items():
             if isinstance(v, type) and issubclass(v, mode):
-                for (methName, methDef) in v.__dict__.iteritems():
+                for (methName, methDef) in v.__dict__.items():
                     if methName not in ('__module__', '__file__', '__name__'):
                         implementations.setdefault(methName, {})[k] = methDef
             keepAttrs[k] = v
 
-        for (methName, methDefs) in implementations.iteritems():
+        for (methName, methDefs) in implementations.items():
             keepAttrs[methName] = ModalMethod(methName, methDefs, modeAttribute)
 
         return super(ModalType, cls).__new__(cls, name, bases, keepAttrs)
 
-class Modal(object):
+class Modal(object, metaclass=ModalType):
 
-    __metaclass__ = ModalType
     modeAttribute = 'mode'
     initialMode = 'nil'
 

@@ -17,7 +17,7 @@ class _MetaAttribute(type):
             return secretClass
         return secretClass()
 
-class attribute(object):
+class attribute(object, metaclass=_MetaAttribute):
     """
     Convenience class for providing one-shot descriptors, similar to
     'property'.  For example:
@@ -47,8 +47,6 @@ class attribute(object):
             ...
         AttributeError: attribute cannot be removed
     """
-
-    __metaclass__ = _MetaAttribute
 
     def __get__(self, oself, type):
         """

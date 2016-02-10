@@ -23,7 +23,7 @@ def require(packageName, fixName):
             timeoutmixin_calllater.install()
     elif (packageName, fixName) == ('twisted', 'delayedcall_seconds'):
         from twisted.internet import base
-        args = inspect.getargs(base.DelayedCall.__init__.func_code)[0]
+        args = inspect.getargs(base.DelayedCall.__init__.__code__)[0]
         if 'seconds' not in args:
             from epsilon.hotfixes import delayedcall_seconds
             delayedcall_seconds.install()
@@ -44,8 +44,8 @@ def require(packageName, fixName):
         from twisted.test.proto_helpers import StringTransport
         st = StringTransport()
         try:
-            st.write(u'foo')
-        except TypeError, e:
+            st.write('foo')
+        except TypeError as e:
             pass
         else:
             from epsilon.hotfixes import proto_helpers_stringtransport

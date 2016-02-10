@@ -39,21 +39,21 @@ class ModalityTestCase(unittest.TestCase):
     modalFactory = ModalTestClass
     def testModalMethods(self):
         x = self.modalFactory()
-        self.assertEquals(x.one(), 'alpha-one')
-        self.assertEquals(x.two(), 'alpha-two')
+        self.assertEqual(x.one(), 'alpha-one')
+        self.assertEqual(x.two(), 'alpha-two')
         self.assertRaises(AttributeError, getattr, x, 'three')
-        self.assertEquals(x.four(), 'unmode-four')
+        self.assertEqual(x.four(), 'unmode-four')
 
         x.mode = 'beta'
         self.assertRaises(AttributeError, getattr, x, 'one')
-        self.assertEquals(x.two(), 'beta-two')
-        self.assertEquals(x.three(), 'beta-three')
-        self.assertEquals(x.four(), 'unmode-four')
+        self.assertEqual(x.two(), 'beta-two')
+        self.assertEqual(x.three(), 'beta-three')
+        self.assertEqual(x.four(), 'unmode-four')
 
     def testInternalModeChange(self):
         x = self.modalFactory()
         x.mode = 'gamma'
-        self.assertEquals(x.change(), 'delta-change')
+        self.assertEqual(x.change(), 'delta-change')
 
 
 class MostBasicInheritanceTestCase(ModalityTestCase):

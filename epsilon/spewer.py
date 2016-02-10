@@ -66,7 +66,7 @@ def extractArgs(frame):
 
 
 def formatArgs(args):
-    return ', '.join(['='.join((k, reflect.safe_repr(v))) for (k, v) in args.iteritems()])
+    return ', '.join(['='.join((k, reflect.safe_repr(v))) for (k, v) in args.items()])
 
 
 class Spewer(Tracer):
@@ -115,11 +115,11 @@ class SignalService(service.Service):
     def startService(self):
         service.Service.startService(self)
         self.oldsigmap = {}
-        for sig, handler in self.sigmap.items():
+        for sig, handler in list(self.sigmap.items()):
             self.oldsigmap[sig] = signal.signal(sig, handler)
 
     def stopService(self):
-        for sig, handler in self.oldsigmap.items():
+        for sig, handler in list(self.oldsigmap.items()):
             signal.signal(sig, handler)
         del self.oldsigmap
         service.Service.stopService(self)

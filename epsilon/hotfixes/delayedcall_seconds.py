@@ -121,9 +121,9 @@ class DelayedCall(styles.Ephemeral):
             return self._str
         if hasattr(self, 'func'):
             if hasattr(self.func, 'func_name'):
-                func = self.func.func_name
+                func = self.func.__name__
                 if hasattr(self.func, 'im_class'):
-                    func = self.func.im_class.__name__ + '.' + func
+                    func = self.func.__self__.__class__.__name__ + '.' + func
             else:
                 func = reflect.safe_repr(self.func)
         else:
@@ -142,7 +142,7 @@ class DelayedCall(styles.Ephemeral):
                 if self.kw:
                     L.append(", ")
             if self.kw:
-                L.append(", ".join(['%s=%s' % (k, reflect.safe_repr(v)) for (k, v) in self.kw.iteritems()]))
+                L.append(", ".join(['%s=%s' % (k, reflect.safe_repr(v)) for (k, v) in self.kw.items()]))
             L.append(")")
 
         if self.debug:

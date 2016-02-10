@@ -151,7 +151,7 @@ def record(*a, **kw):
     elif len(a) == 0:
         if not kw:
             raise TypeError("Attempted to define a record with no attributes.")
-        attributeNames = kw.keys()
+        attributeNames = list(kw.keys())
         attributeNames.sort()
     else:
         raise TypeError(

@@ -163,10 +163,10 @@ World: this header is ignored
         asserts = {'hello': HELLO,
                    '-answer': ASKTOK}
         hdrs = [j.split(': ') for j in c.buf.split('\r\n')[:-2]]
-        self.assertEquals(len(asserts), len(hdrs))
+        self.assertEqual(len(asserts), len(hdrs))
         for hdr in hdrs:
             k, v = hdr
-            self.assertEquals(v, asserts[k.lower()])
+            self.assertEqual(v, asserts[k.lower()])
 
     def testParsingRoundTrip(self):
         c, s, p = connectedServerAndClient(ClientClass=lambda: LiteralJuice(False),
@@ -197,7 +197,7 @@ World: this header is ignored
             jb.update(dict(test))
             jb.sendTo(c)
             p.flush()
-            self.assertEquals(s.boxes[-1], jb)
+            self.assertEqual(s.boxes[-1], jb)
 
 SWITCH_CLIENT_DATA = 'Success!'
 SWITCH_SERVER_DATA = 'No, really.  Success.'
@@ -209,7 +209,7 @@ class AppLevelTest(unittest.TestCase):
         HELLO = 'world'
         c.sendHello(HELLO).addCallback(L.append)
         p.flush()
-        self.assertEquals(L[0]['hello'], HELLO)
+        self.assertEqual(L[0]['hello'], HELLO)
 
     def testHelloWorldCommand(self):
         c, s, p = connectedServerAndClient(
@@ -219,7 +219,7 @@ class AppLevelTest(unittest.TestCase):
         HELLO = 'world'
         c.sendHello(HELLO).addCallback(L.append)
         p.flush()
-        self.assertEquals(L[0]['hello'], HELLO)
+        self.assertEqual(L[0]['hello'], HELLO)
 
     def testHelloErrorHandling(self):
         L=[]
@@ -229,7 +229,7 @@ class AppLevelTest(unittest.TestCase):
         c.sendHello(HELLO).addErrback(L.append)
         p.flush()
         L[0].trap(UnfriendlyGreeting)
-        self.assertEquals(str(L[0].value), "Don't be a dick.")
+        self.assertEqual(str(L[0].value), "Don't be a dick.")
 
     def testJuiceListCommand(self):
         c, s, p = connectedServerAndClient(ServerClass=lambda: SimpleSymmetricCommandProtocol(True),
@@ -238,7 +238,7 @@ class AppLevelTest(unittest.TestCase):
         GetList(length=10).do(c).addCallback(L.append)
         p.flush()
         values = L.pop().get('body')
-        self.assertEquals(values, [{'x': 1}] * 10)
+        self.assertEqual(values, [{'x': 1}] * 10)
 
     def testFailEarlyOnArgSending(self):
         okayCommand = Hello(Hello="What?")
@@ -250,9 +250,9 @@ class AppLevelTest(unittest.TestCase):
         negotiatedVersion = []
         s.renegotiateVersion(1).addCallback(negotiatedVersion.append)
         p.flush()
-        self.assertEquals(negotiatedVersion[0], 1)
-        self.assertEquals(c.protocolVersion, 1)
-        self.assertEquals(s.protocolVersion, 1)
+        self.assertEqual(negotiatedVersion[0], 1)
+        self.assertEqual(c.protocolVersion, 1)
+        self.assertEqual(s.protocolVersion, 1)
 
     def testProtocolSwitch(self, switcher=SimpleSymmetricCommandProtocol):
         self.testSucceeded = False
@@ -266,11 +266,12 @@ class AppLevelTest(unittest.TestCase):
 
         switchDeferred = c.switchToTestProtocol()
 
-        def cbConnsLost(((serverSuccess, serverData), (clientSuccess, clientData))):
-            self.failUnless(serverSuccess)
-            self.failUnless(clientSuccess)
-            self.assertEquals(''.join(serverData), SWITCH_CLIENT_DATA)
-            self.assertEquals(''.join(clientData), SWITCH_SERVER_DATA)
+        def cbConnsLost(xxx_todo_changeme):
+            ((serverSuccess, serverData), (clientSuccess, clientData)) = xxx_todo_changeme
+            self.assertTrue(serverSuccess)
+            self.assertTrue(clientSuccess)
+            self.assertEqual(''.join(serverData), SWITCH_CLIENT_DATA)
+            self.assertEqual(''.join(clientData), SWITCH_SERVER_DATA)
             self.testSucceeded = True
 
         def cbSwitch(proto):
@@ -281,7 +282,7 @@ class AppLevelTest(unittest.TestCase):
         if serverProto.maybeLater is not None:
             serverProto.maybeLater.callback(serverProto.maybeLaterProto)
             p.flush()
-        self.failUnless(self.testSucceeded)
+        self.assertTrue(self.testSucceeded)
 
     def testProtocolSwitchDeferred(self):
         return self.testProtocolSwitch(switcher=DeferredSymmetricCommandProtocol)

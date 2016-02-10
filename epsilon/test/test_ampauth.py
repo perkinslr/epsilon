@@ -325,7 +325,7 @@ class AMPUsernamePasswordTests(TestCase):
     """
     def setUp(self):
         self.username = 'user name'
-        password = u'foo bar\N{LATIN SMALL LETTER E WITH ACUTE}'
+        password = 'foo bar\N{LATIN SMALL LETTER E WITH ACUTE}'
         self.password = password.encode('utf-8')
         self.challenge = '123xyzabc789'
         self.nonce = '1 2 3 4 5'
@@ -368,7 +368,7 @@ class AMPUsernamePasswordTests(TestCase):
         """
         self.assertFalse(
             self.credentials.checkPassword(
-                u'\N{LATIN SMALL LETTER E WITH ACUTE}'))
+                '\N{LATIN SMALL LETTER E WITH ACUTE}'))
 
 
 

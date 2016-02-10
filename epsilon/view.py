@@ -28,7 +28,7 @@ class SlicedView(object):
 
     def _getIndices(self):
         start, stop, step = self.bounds.indices(len(self.sequence))
-        indices = xrange(start, stop, step)
+        indices = range(start, stop, step)
         return indices
 
 

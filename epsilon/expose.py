@@ -131,7 +131,7 @@ class Exposer(object):
         T = obj.__class__
         seen = {}
         for subT in inspect.getmro(T):
-            for name, value in subT.__dict__.items():
+            for name, value in list(subT.__dict__.items()):
                 for rightFunc in rightFuncs:
                     if value is rightFunc:
                         if name in seen:

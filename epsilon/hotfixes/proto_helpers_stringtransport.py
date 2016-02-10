@@ -3,7 +3,7 @@ from twisted.test import proto_helpers
 class StringTransport:
 
     def write(self, data):
-        if isinstance(data, unicode): # no, really, I mean it
+        if isinstance(data, str): # no, really, I mean it
             raise TypeError("Data must not be unicode")
         self.io.write(data)
 

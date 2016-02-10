@@ -58,7 +58,7 @@ class JuiceBox(dict):
         assert LENGTH not in self
 
         L = []
-        for (k, v) in self.iteritems():
+        for (k, v) in self.items():
             if k == BODY:
                 k = LENGTH
                 v = str(len(self[BODY]))
@@ -318,21 +318,21 @@ class JuiceParserBase(DispatchMixin):
         if self.transport is not None:
             self.transport.loseConnection()
 
-    _counter = 0L
+    _counter = 0
 
     def _nextTag(self):
         self._counter += 1
         return '%x' % (self._counter,)
 
     def failAllOutgoing(self, reason):
-        OR = self._outstandingRequests.items()
+        OR = list(self._outstandingRequests.items())
         self._outstandingRequests = None # we can never send another request
         for key, value in OR:
             value.errback(reason)
 
     def juiceBoxReceived(self, box):
         if debug:
-            log.msg("Juice receive: %s" % pprint.pformat(dict(box.iteritems())))
+            log.msg("Juice receive: %s" % pprint.pformat(dict(iter(box.items()))))
 
         if ANSWER in box:
             question = self._outstandingRequests.pop(box[ANSWER])
@@ -596,10 +596,10 @@ class Command:
         def __new__(cls, name, bases, attrs):
             re = attrs['reverseErrors'] = {}
             er = attrs['allErrors'] = {}
-            for v, k in attrs.get('errors',{}).iteritems():
+            for v, k in attrs.get('errors',{}).items():
                 re[k] = v
                 er[v] = k
-            for v, k in attrs.get('fatalErrors',{}).iteritems():
+            for v, k in attrs.get('fatalErrors',{}).items():
                 re[k] = v
                 er[v] = k
             return type.__new__(cls, name, bases, attrs)
@@ -626,7 +626,7 @@ class Command:
 
     def __init__(self, **kw):
         self.structured = kw
-        givenArgs = [normalizeKey(k) for k in kw.keys()]
+        givenArgs = [normalizeKey(k) for k in list(kw.keys())]
         forgotten = []
         for name, arg in self.arguments:
             if normalizeKey(name) not in givenArgs and not arg.optional:
@@ -813,7 +813,7 @@ class Juice(LineReceiver, JuiceParserBase):
             self._startingTLSBuffer.append(completeBox)
         else:
             if debug:
-                log.msg("Juice send: %s" % pprint.pformat(dict(completeBox.iteritems())))
+                log.msg("Juice send: %s" % pprint.pformat(dict(iter(completeBox.items()))))
 
             self.transport.write(completeBox.serialize())
 
@@ -944,7 +944,7 @@ class Juice(LineReceiver, JuiceParserBase):
 
 VERSIONS = [1]
 
-from cStringIO import StringIO
+from io import StringIO
 class _ParserHelper(Juice):
     def __init__(self):
         Juice.__init__(self, False)
@@ -986,7 +986,7 @@ def stringsToObjects(strings, arglist, proto):
 
 def objectsToStrings(objects, arglist, strings, proto):
     myObjects = {}
-    for (k, v) in objects.items():
+    for (k, v) in list(objects.items()):
         myObjects[normalizeKey(k)] = v
 
     for argname, argparser in arglist:

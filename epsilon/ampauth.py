@@ -132,7 +132,7 @@ class _AMPUsernamePassword(record('username challenge nonce response')):
         @return: A C{bool}, C{True} if this credentials object agrees with the
             given password, C{False} otherwise.
         """
-        if isinstance(password, unicode):
+        if isinstance(password, str):
             password = password.encode('utf-8')
         correctResponse = _calcResponse(self.challenge, self.nonce, password)
         return correctResponse == self.response
@@ -193,7 +193,8 @@ class CredReceiver(AMP):
         Actually login to our portal with the given credentials.
         """
         d = self.portal.login(credentials, None, IBoxReceiver)
-        def cbLoggedIn((interface, avatar, logout)):
+        def cbLoggedIn(xxx_todo_changeme):
+            (interface, avatar, logout) = xxx_todo_changeme
             self.logout = logout
             self.boxReceiver = avatar
             self.boxReceiver.startReceivingBoxes(self.boxSender)

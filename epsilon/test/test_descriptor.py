@@ -26,17 +26,17 @@ class Test2(object):
 class DescriptorTest(unittest.TestCase):
     def testCase1(self):
         t = Test1()
-        self.assertEquals(t.a, 1)
+        self.assertEqual(t.a, 1)
         t.a = 2
-        self.assertEquals(t.a, 1)
+        self.assertEqual(t.a, 1)
         del t.a
-        self.assertEquals(t.a, 1)
+        self.assertEqual(t.a, 1)
 
 
     def testCase2(self):
         t = Test2()
-        self.assertEquals(Test2.a.__doc__, 'stuff')
-        self.assertEquals(t.a, 10)
+        self.assertEqual(Test2.a.__doc__, 'stuff')
+        self.assertEqual(t.a, 10)
         self.assertRaises(AttributeError, setattr, t, 'a', 1)
         self.assertRaises(AttributeError, delattr, t, 'a')
 
