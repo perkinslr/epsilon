@@ -1,6 +1,5 @@
 # -*- test-case-name: epsilon.test.test_modes -*-
-
-import new
+import types
 
 class ModalMethod(object):
     """A descriptor wrapping multiple implementations of a particular method.
@@ -37,7 +36,7 @@ class ModalMethod(object):
             raise AttributeError(
                 "Method %r missing from mode %r on %r" % (self.name, mode, instance))
 
-        return new.instancemethod(func, instance, owner)
+        return types.MethodType(func, instance, owner)
 
 class mode(object):
     """
