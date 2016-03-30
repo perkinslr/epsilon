@@ -36,7 +36,7 @@ class ModalMethod(object):
             raise AttributeError(
                 "Method %r missing from mode %r on %r" % (self.name, mode, instance))
 
-        return types.MethodType(func, instance, owner)
+        return types.MethodType(func, instance)
 
 class mode(object):
     """
